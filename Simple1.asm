@@ -31,6 +31,7 @@ loop 	tblrd*+			; move one byte from PM to TABLAT, increment TBLPRT
 	decfsz	counter		; count down to zero
 	bra	loop		; keep going until finished
 	; test comment
+	; test branch
 	goto	0
 
 	end
