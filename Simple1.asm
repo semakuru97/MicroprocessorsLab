@@ -9,6 +9,8 @@
 	; ******* Programme FLASH read Setup Code ****  
 setup	bcf	EECON1, CFGS	; point to Flash program memory  
 	bsf	EECON1, EEPGD 	; access Flash program memory
+	
+	
 	goto	start
 	; ******* My data and where to put it in RAM *
 myTable data	"This is just some data"
