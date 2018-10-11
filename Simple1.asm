@@ -28,10 +28,16 @@ start 	lfsr	FSR0, myArray	; Load FSR0 with address in RAM
 	movwf 	counter		; our counter register
 loop 	tblrd*+			; move one byte from PM to TABLAT, increment TBLPRT
 	movff	TABLAT, POSTINC0	; move read data from TABLAT to (FSR0), increment FSR0	
-	decfsz	counter		; count down to zero
+	movlw .10
+	movwf 0x20 ; store 10 in 0x20
+	call subroutine
+	decfsz	counter	; count down to zero
 	bra	loop		; keep going until finished
 	; test comment
 	; test branch
 	goto	0
-
+	
+subroutine  decfsz 0x20 ; count down from 10 to 0
+	    bra subroutine
+	    return
 	end
