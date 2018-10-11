@@ -37,7 +37,15 @@ loop 	tblrd*+			; move one byte from PM to TABLAT, increment TBLPRT
 	; test branch
 	goto	0
 	
-subroutine  decfsz 0x20 ; count down from 10 to 0
-	    bra subroutine
-	    return
+subroutine  
+	movlw .3
+	movwf 0x21 ; store 3 in 0x21
+	call subsubroutine
+	decfsz 0x20 ; count down from 10 to 0
+	bra subroutine
+	return
+	
+subsubroutine decfsz 0x21 ; count down from 3 to 0
+	bra subsubroutine
+	return
 	end
