@@ -1,21 +1,30 @@
-	#include p18f87k22.inc
+#include p18f87k22.inc
 	
 	code
 	org 0x0
-	goto	start
+	goto	setup
 	
 	org 0x100		    ; Main code starts here at address 0x100
 
-start
-	movlw 	0x0
-	movwf	TRISB, ACCESS	    ; Port C all outputs
-	bra 	test
-loop	movff 	0x06, PORTB
-	incf 	0x06, W, ACCESS
-test	movwf	0x06, ACCESS	    ; Test for end of loop condition
-	movlw 	0x63
-	cpfsgt 	0x06, ACCESS
-	bra 	loop		    ; Not yet finished goto start of loop again
-	goto 	0x0		    ; Re-run program from start
+	; ******* Programme FLASH read Setup Code ****  
+setup	bcf	EECON1, CFGS	; point to Flash program memory  
+	bsf	EECON1, EEPGD 	; access Flash program memory
 	
-	end
+	
+	goto	start
+	; ******* My data and where to put it in RAM 
+start	movlw	0x0
+movwf	TRISE, ACCESS ; Port E all outputs
+	movlw	0x0
+movwf	TRISD, ACCESS ; Port E all outputs
+	
+movlw	0x8E
+movwf	PORTE, ACCESS
+	
+loop	movlw   0x01  ; Clock with period of 374ns
+	movwf   PORTD
+	movlw   0x0
+	movwf   PORTD
+	bra loop
+	
+	end 
